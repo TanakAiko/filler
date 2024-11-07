@@ -1,7 +1,7 @@
 use std::io::Write;
 use std::{fs::OpenOptions, io};
 
-use utils::{get_anfield, get_piece_size, get_player};
+use utils::{get_anfield, get_coordinate, get_piece_size, get_player};
 
 pub mod utils;
 
@@ -23,7 +23,7 @@ fn main() {
 
     writeln!(file, "first_line: {}", first_line).expect("Writing error");
 
-    let _player = get_player(first_line);
+    let player = get_player(first_line);
 
     let mut second_line = String::new();
     io::stdin()
@@ -40,10 +40,10 @@ fn main() {
             .read_line(&mut input)
             .expect("Erreur lors de la lecture");
 
-        writeln!(file, "input: {}", input).expect("Writing error");
+        write!(file, "input: {}", input).expect("Writing error");
 
         let trimmed = input.trim();
-        if !trimmed.is_empty() {
+        if !trimmed.is_empty() && !trimmed.contains("Anfield"){
             lines.push(trimmed.to_string());
         }
 
@@ -52,14 +52,16 @@ fn main() {
             piece_size = size.clone()
         }
 
-        writeln!(file, "lines.len(): {}, total: {}", lines.len(), anfield.1 + 1 + piece_size.1 + 1).expect("Writing error");
+        //writeln!(file, "lines.len(): {}, total: {}", lines.len(), anfield.1 + 1 + piece_size.1 + 1).expect("Writing error");
         if byte_read == 0
             || piece_size.1 != 0 && lines.len() == (anfield.1 + 1 + piece_size.1 + 1) as usize
         {
             writeln!(file, "lines: {:?}", lines).expect("Writing error");
-            println!("9 12");
-            //read(lines);
+            //println!("9 12");
+            get_coordinate(&mut file, lines, player.clone(), anfield, piece_size);
             lines = Vec::new();
+            piece_size = (0, 0);
+            break;
         }
 
     }
