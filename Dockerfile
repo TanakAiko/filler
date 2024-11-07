@@ -1,11 +1,14 @@
 FROM rust:1.63-buster
 
 COPY ./maps			        /filler/maps
-COPY ./linux_robots		    /filler/linux_robots
-COPY ./m1_robots		    /filler/m1_robots
-COPY ./linux_game_engine	/filler/linux_game_engine
-COPY ./m1_game_engine	    /filler/m1_game_engine
+COPY ./robots		        /filler/robots
+COPY ./game_engine	        /filler/game_engine
+COPY ./solution             /filler/solution
 
-WORKDIR /filler/
+WORKDIR /filler/solution
+
+RUN cargo build --release
+
+WORKDIR /filler
 
 ENTRYPOINT /bin/bash
