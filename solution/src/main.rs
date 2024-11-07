@@ -43,7 +43,7 @@ fn main() {
         write!(file, "input: {}", input).expect("Writing error");
 
         let trimmed = input.trim();
-        if !trimmed.is_empty() && !trimmed.contains("Anfield"){
+        if !trimmed.is_empty() && !trimmed.contains("Anfield") {
             lines.push(trimmed.to_string());
         }
 
@@ -56,13 +56,10 @@ fn main() {
         if byte_read == 0
             || piece_size.1 != 0 && lines.len() == (anfield.1 + 1 + piece_size.1 + 1) as usize
         {
-            writeln!(file, "lines: {:?}", lines).expect("Writing error");
-            //println!("9 12");
+            //writeln!(file, "lines: {:?}", lines).expect("Writing error");
             get_coordinate(&mut file, lines, player.clone(), anfield, piece_size);
             lines = Vec::new();
             piece_size = (0, 0);
-            break;
         }
-
     }
 }

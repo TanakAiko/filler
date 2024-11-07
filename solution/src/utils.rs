@@ -12,18 +12,21 @@ pub fn get_coordinate(
     let piece = get_piece(&lines, piece_size);
     let all_possibilities = get_all_possible_place(&map, &piece, player);
     let opp_point = get_all_opponent_point(&map, &player);
-    let close = find_closest_pair(&all_possibilities, &opp_point);
-    writeln!(file, "Map: {:?}", map).expect("Writing error");
-    writeln!(file, "Piece: {:?}", piece).expect("Writing error");
-    writeln!(file, "Possibility: {:?}", all_possibilities).expect("Writing error");
-    writeln!(file, "Opp: {:?}", opp_point).expect("Writing error");
-    writeln!(file, "Close: {:?}", close).expect("Writing error");
+    let result = find_closest_pair(&all_possibilities, &opp_point);
+
+    // writeln!(file, "Map: {:?}", map).expect("Writing error");
+    // writeln!(file, "Piece: {:?}", piece).expect("Writing error");
+    // writeln!(file, "Possibility: {:?}", all_possibilities).expect("Writing error");
+    // writeln!(file, "Opp: {:?}", opp_point).expect("Writing error");
+    writeln!(file, "Result Point: {:?}", result).expect("Writing error");
+
+    println!("{} {}", result.1, result.0);
 }
 
 pub fn find_closest_pair(
     possibilities: &[(usize, usize)],
     opponents: &[(usize, usize)],
-) -> ((usize, usize), (usize, usize)) {
+) -> (usize, usize) {
     let mut min_distance = usize::MAX;
     let mut closest_pair = ((0, 0), (0, 0));
 
@@ -40,7 +43,7 @@ pub fn find_closest_pair(
         }
     }
 
-    closest_pair
+    closest_pair.0
 }
 
 pub fn get_all_opponent_point(map: &Vec<Vec<char>>, player: &(char, char)) -> Vec<(usize, usize)> {
